@@ -1,0 +1,45 @@
+﻿@page
+@model CalculatorApp.Pages.CalculatorModel  // Links this page to its PageModel class
+@{
+    ViewData["Title"] = "Calculator";  // Sets the browser tab title
+}
+
+<h1>Simple Calculator</h1> <!--This is the title inside the page..-->
+
+<form method="post">  <!--// Form submits data to the PageModel's OnPost method-->
+    <div class="form-group"> <!--// Groups label and input for styling-->
+        <label for="number1">First Number:</label>
+        <input type="number" asp-for="Calculator.Number1" class="form-control" step="any" />  <!--// Binds to Calculator.Number1-->
+    </div>
+    
+    <div class="form-group">
+        <label for="number2">Second Number:</label>
+        <input type="number" asp-for="Calculator.Number2" class="form-control" step="any" />  <!--// Binds to Calculator.Number2 -->
+    </div>
+    
+    <div class="form-group">
+        <label for="operation">Operation:</label>
+        <select asp-for="Calculator.Operation" class="form-control">  <!--// Binds to Calculator.Operation-->
+            <option value="add">+</option>      <!--// Value sent to server-->
+            <option value="subtract">-</option> <!--// User sees the symbol-->
+            <option value="multiply">×</option>
+            <option value="divide">÷</option>
+        </select>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Calculate</button>  <!--// Triggers form submission-->
+</form>
+
+@if (Model.Result.HasValue)  // Shows result only if there’s a value
+{
+    <div class="mt-3">  <!--// Adds margin for spacing-->
+        <h3>Result: @Model.Result</h3>  <!--// Displays the calculated result-->
+    </div>
+}
+
+@if (!ModelState.IsValid)  // Shows errors if something goes wrong (e.g., divide by zero)
+{
+    <div class="text-danger">  <!--// Red text for errors-->
+        @Html.ValidationSummary()  <!--// Displays error messages from the PageModel-->
+    </div>
+}
